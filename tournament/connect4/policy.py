@@ -51,9 +51,11 @@ class UCB1Agent(Policy):
         best_score = -float("inf")
         best_cols = []
         alpha, beta = -float("inf"), float("inf")
+        #simula para cada jugada lo que haría el rival
         for c in candidates:
             nb = self._drop(board, c, p_turn)
             score = self._min_value(nb, self.depth - 1, alpha, beta, p_turn, opp)
+            #va actualizando los valores de la mejor simulación encontrada
             if score > best_score:
                 best_score = score
                 best_cols = [c]
@@ -66,21 +68,25 @@ class UCB1Agent(Policy):
         best_cols.sort(key=lambda x: abs(x - center))
         return best_cols[0]
 
-    # Parte "Max" del algoritmo Minimax (jugador actual)
+    # Parte "Max" del algoritmo Minimax - turno del agente
     def _max_value(self, b, d, alpha, beta, me, opp):
+        #si el jugador ganó
         if self._has_four(b, me):
-            return 10000 + d  # Gana cuanto antes mejor
+            return 10000 + d 
+        #si el rival gano
         if self._has_four(b, opp):
-            return -10000 - d  # El rival gana (muy mal)
+            return -10000 - d 
         if d == 0:
             return self._eval(b, me)  # Límite de profundidad: se evalúa heurísticamente
 
+        #simula cada jugada posible del agente y ve que tan bien responde el rival
         v = -float("inf")
         for c in self._valid_cols(b):
             nb = self._drop(b, c, me)
             v = max(v, self._min_value(nb, d - 1, alpha, beta, me, opp))
             if v >= beta:
                 return v  # Poda beta
+            #aplha se actualiza con el mejor valor hallado hasta ahora
             alpha = max(alpha, v)
         return v if v != -float("inf") else self._eval(b, me)
 
@@ -93,6 +99,7 @@ class UCB1Agent(Policy):
         if d == 0:
             return self._eval(b, me)
 
+        #el rival juega cada opción y ve como el agente reacciona
         v = float("inf")
         for c in self._valid_cols(b):
             nb = self._drop(b, c, opp)
