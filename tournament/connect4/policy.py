@@ -1,196 +1,222 @@
 import numpy as np
-from connect4.policy import Policy
+import math
+import random
+from learning.q_learning_agent import QLearningAgent
 
-# Constantes para el juego de Conecta-4
-ROWS, COLS = 6, 7              # Tablero de 6 filas x 7 columnas
-EMPTY, P1, P2 = 0, -1, 1       # Estados de cada celda: vacía, jugador 1, jugador 2
+ROWS, COLS = 6, 7
+EMPTY, P1, P2 = 0, -1, 1
 
-# Clase del agente, hereda de Policy (interfaz esperada por el entorno)
-class UCB1Agent(Policy):
+class Policy:
+    def mount(self, timeout=None):
+        pass
 
-    def __init__(self, depth: int = 3):
-        # Profundidad de búsqueda del algoritmo Minimax
-        self.depth = depth
+    def act(self, state):
+        raise NotImplementedError("Debes implementar el método act")
 
-    def mount(self):
-        # Método requerido por el entorno, pero no se usa en esta implementación
+
+class Node:
+    def __init__(self, board, player, parent=None, move=None):
+        self.board = board
+        self.player = player    # jugador que tiene el turno en este nodo
+        self.parent = parent
+        self.move = move
+        self.children = {}      # col -> Node
+        self.visits = 0
+        self.total_reward = 0.0
+
+    def is_fully_expanded(self):
+        return len(self.children) == len(self._valid_cols())
+
+    def _valid_cols(self):
+        return [c for c in range(COLS) if self.board[0, c] == EMPTY]
+
+class MCTSAgent(Policy):
+    """
+    MCTS simple y compatible con autograder.
+    - mount(timeout=None) acepta el parámetro del autograder.
+    - act(s) usa s.board o array y s.valid_actions() si existe.
+    """
+
+    def __init__(self, iterations: int = 400, c: float = 1.4, rollout_limit: int = 100):
+        self.iterations = iterations
+        self.c = c
+        self.rollout_limit = rollout_limit
+
+    # Acepta el timeout que el autograder le pasa
+    def mount(self, timeout=None):
+        # no usamos timeout, pero lo aceptamos para compatibilidad
         pass
 
     def act(self, s):
-        # Convierte el estado en matriz de numpy, dependiendo del formato que tenga
-        board = s.board if hasattr(s, 'board') else np.array(s)
-
-        # Obtiene las columnas válidas donde se puede jugar (las que no están llenas)
-        valid = s.valid_actions() if hasattr(s, 'valid_actions') else [c for c in range(COLS) if board[0, c] == EMPTY]
+        board = s.board if hasattr(s, "board") else np.array(s)
+        valid = s.valid_actions() if hasattr(s, "valid_actions") else [c for c in range(COLS) if board[0, c] == EMPTY]
         if not valid:
-            return 0  # Caso extremo donde no hay jugadas válidas
+            return 0
 
-        # Determina qué jugador tiene el turno (basado en la cantidad de fichas ya jugadas)
+        # Determinar quién tiene el turno (mismo criterio que usabas)
         p_turn = P1 if np.count_nonzero(board == P1) == np.count_nonzero(board == P2) else P2
-        opp = -p_turn  # El oponente es el opuesto del jugador actual
+        opp = -p_turn
 
-        # 1. Si el jugador actual puede ganar con una jugada, la hace
+        # 0) Si hay victoria inmediata para mí -> jugarla
         for c in valid:
             if self._is_winning_move(board, c, p_turn):
                 return c
 
-        # 2. Si el oponente puede ganar en su siguiente jugada, se bloquea
+        # 1) Si el oponente puede ganar en su siguiente jugada -> bloquear
         for c in valid:
             if self._is_winning_move(board, c, opp):
                 return c
 
-        # 3. Se filtran jugadas peligrosas (que permitan que el oponente gane en su siguiente turno)
-        safe = []
-        for c in valid:
-            nb = self._drop(board, c, p_turn)
-            if not any(self._is_winning_move(nb, oc, opp) for oc in self._valid_cols(nb)):
-                safe.append(c)
-        candidates = safe if safe else valid
+        # 2) MCTS estándar
+        root = Node(board.copy(), p_turn)
 
-        # 4. Se usa Minimax con poda alfa-beta para evaluar cada jugada candidata
-        best_score = -float("inf")
-        best_cols = []
-        alpha, beta = -float("inf"), float("inf")
-        #simula para cada jugada lo que haría el rival
-        for c in candidates:
-            nb = self._drop(board, c, p_turn)
-            score = self._min_value(nb, self.depth - 1, alpha, beta, p_turn, opp)
-            #va actualizando los valores de la mejor simulación encontrada
+        for _ in range(self.iterations):
+            node = root
+            # Selection
+            while node.children and node.is_fully_expanded():
+                node = self._uct_select(node)
+
+            # Expansion
+            valid_cols = [c for c in range(COLS) if node.board[0, c] == EMPTY]
+            untried = [c for c in valid_cols if c not in node.children]
+            if untried:
+                col = random.choice(untried)
+                nb = self._drop(node.board, col, node.player)
+                child = Node(nb, -node.player, parent=node, move=col)
+                node.children[col] = child
+                node = child
+
+            # Simulation
+            reward = self._rollout(node.board, node.player, p_turn)
+
+            # Backpropagation
+            self._backpropagate(node, reward)
+
+        # Elegir hijo con más visitas (desempata hacia el centro)
+        if not root.children:
+            return random.choice(valid)
+        best_col = None
+        best_visits = -1
+        for col, child in root.children.items():
+            if child.visits > best_visits:
+                best_visits = child.visits
+                best_col = col
+            elif child.visits == best_visits:
+                center = COLS // 2
+                if abs(col - center) < abs(best_col - center):
+                    best_col = col
+        return best_col
+
+    # UCT selection
+    def _uct_select(self, node):
+        best_score = -float('inf')
+        best_child = None
+        for col, child in node.children.items():
+            if child.visits == 0:
+                score = float('inf')
+            else:
+                exploitation = child.total_reward / child.visits
+                exploration = self.c * math.sqrt(math.log(node.visits + 1) / child.visits)
+                score = exploitation + exploration
             if score > best_score:
                 best_score = score
-                best_cols = [c]
-                alpha = max(alpha, score)
-            elif score == best_score:
-                best_cols.append(c)
+                best_child = child
+        return best_child
 
-        # Se desempata eligiendo la jugada más cercana al centro
-        center = COLS // 2
-        best_cols.sort(key=lambda x: abs(x - center))
-        return best_cols[0]
+    # Rollout: juego aleatorio con tope de pasos
+    def _rollout(self, board, player, root_player):
+        b = board.copy()
+        current = player
+        steps = 0
+        while True:
+            if self._has_four(b, root_player):
+                return 1.0
+            if self._has_four(b, -root_player):
+                return 0.0
+            valid = [c for c in range(COLS) if b[0, c] == EMPTY]
+            if not valid or steps >= self.rollout_limit:
+                return 0.5
+            col = random.choice(valid)
+            b = self._drop(b, col, current)
+            current = -current
+            steps += 1
 
-    # Parte "Max" del algoritmo Minimax - turno del agente
-    def _max_value(self, b, d, alpha, beta, me, opp):
-        #si el jugador ganó
-        if self._has_four(b, me):
-            return 10000 + d 
-        #si el rival gano
-        if self._has_four(b, opp):
-            return -10000 - d 
-        if d == 0:
-            return self._eval(b, me)  # Límite de profundidad: se evalúa heurísticamente
+    def _backpropagate(self, node, reward):
+        while node is not None:
+            node.visits += 1
+            node.total_reward += reward
+            node = node.parent
 
-        #simula cada jugada posible del agente y ve que tan bien responde el rival
-        v = -float("inf")
-        for c in self._valid_cols(b):
-            nb = self._drop(b, c, me)
-            v = max(v, self._min_value(nb, d - 1, alpha, beta, me, opp))
-            if v >= beta:
-                return v  # Poda beta
-            #aplha se actualiza con el mejor valor hallado hasta ahora
-            alpha = max(alpha, v)
-        return v if v != -float("inf") else self._eval(b, me)
-
-    # Parte "Min" del algoritmo Minimax (turno del oponente)
-    def _min_value(self, b, d, alpha, beta, me, opp):
-        if self._has_four(b, me):
-            return 10000 + d
-        if self._has_four(b, opp):
-            return -10000 - d
-        if d == 0:
-            return self._eval(b, me)
-
-        #el rival juega cada opción y ve como el agente reacciona
-        v = float("inf")
-        for c in self._valid_cols(b):
-            nb = self._drop(b, c, opp)
-            v = min(v, self._max_value(nb, d - 1, alpha, beta, me, opp))
-            if v <= alpha:
-                return v  # Poda alfa
-            beta = min(beta, v)
-        return v if v != float("inf") else self._eval(b, me)
-
-    # Devuelve las columnas válidas donde se puede colocar una ficha
-    def _valid_cols(self, b):
-        return [c for c in range(COLS) if b[0, c] == EMPTY]
-
-    # Simula una jugada en una copia del tablero, dejando caer la ficha en la columna col
+    # Simula dejar caer una ficha
     def _drop(self, b, col, player):
         nb = b.copy()
-        for r in range(ROWS - 1, -1, -1):  # desde la fila inferior hacia arriba
+        for r in range(ROWS - 1, -1, -1):
             if nb[r, col] == EMPTY:
                 nb[r, col] = player
                 return nb
-        return nb  # Fallback
+        return nb
 
-    # Evalúa si jugar en col da una victoria inmediata
+    # Comprueba si col produce victoria para player
     def _is_winning_move(self, b, col, player):
         if b[0, col] != EMPTY:
             return False
         nb = self._drop(b, col, player)
         return self._has_four(nb, player)
 
-    # Revisa si el jugador tiene 4 en línea (horizontal, vertical o diagonal)
+    # Detecta 4 en línea
     def _has_four(self, b, player):
+        # Horizontal
         for r in range(ROWS):
             for c in range(COLS - 3):
                 if np.all(b[r, c:c+4] == player):
                     return True
+        # Vertical
         for c in range(COLS):
             for r in range(ROWS - 3):
                 if np.all(b[r:r+4, c] == player):
                     return True
+        # Diagonal down-right
         for r in range(ROWS - 3):
             for c in range(COLS - 3):
                 if all(b[r+i, c+i] == player for i in range(4)):
                     return True
+        # Diagonal down-left
         for r in range(ROWS - 3):
             for c in range(3, COLS):
                 if all(b[r+i, c-i] == player for i in range(4)):
                     return True
         return False
 
-    # Heurística de evaluación del tablero
-    def _eval(self, b, me):
-        opp = -me
-        score = 0
+class QPolicy(Policy):
+    def __init__(self, model_path="metrics/q_table.pkl"):
+        self.agent = QLearningAgent(train_mode=False)  # Sin exploración en evaluación
+        self.model_path = model_path
+        self.agent.epsilon = 0.0  # Sin exploración en evaluación
 
-        # Bonificación por controlar el centro
-        center_col = b[:, COLS // 2]
-        score += 3 * np.count_nonzero(center_col == me)
-        score -= 3 * np.count_nonzero(center_col == opp)
+    def mount(self, timeout=None):
+        """Carga el modelo entrenado"""
+        try:
+            self.agent.load(self.model_path)
+            print(f"✅ Modelo Q-Learning cargado desde {self.model_path}")
+        except FileNotFoundError:
+            print(f"⚠️  No se encontró {self.model_path}, usando política aleatoria")
 
-        # Función auxiliar para evaluar una ventana de 4 posiciones
-        def wscore(window):
-            myc = np.count_nonzero(window == me)
-            opc = np.count_nonzero(window == opp)
-            emp = np.count_nonzero(window == EMPTY)
-            if myc > 0 and opc > 0:
-                return 0  # ventana bloqueada
-            if myc == 3 and emp == 1:
-                return 100
-            if myc == 2 and emp == 2:
-                return 10
-            if myc == 1 and emp == 3:
-                return 1
-            if opc == 3 and emp == 1:
-                return -80
-            if opc == 2 and emp == 2:
-                return -8
+    def act(self, state):
+        """Selecciona acción usando la Q-table entrenada"""
+        # Manejar tanto objetos state como arrays numpy
+        if hasattr(state, 'board'):
+            board = state.board
+            valid_actions = [c for c in range(7) if board[0, c] == 0]
+        else:
+            board = np.array(state)
+            valid_actions = [c for c in range(7) if board[0, c] == 0]
+        
+        if not valid_actions:
             return 0
-
-        # Recorre todo el tablero sumando el puntaje de cada ventana
-        for r in range(ROWS):
-            for c in range(COLS - 3):
-                score += wscore(b[r, c:c+4])
-        for c in range(COLS):
-            for r in range(ROWS - 3):
-                score += wscore(b[r:r+4, c])
-        for r in range(ROWS - 3):
-            for c in range(COLS - 3):
-                score += wscore(np.array([b[r+i, c+i] for i in range(4)]))
-        for r in range(ROWS - 3):
-            for c in range(3, COLS):
-                score += wscore(np.array([b[r+i, c-i] for i in range(4)]))
-        return score
-
-MyPolicy = UCB1Agent
+            
+        # Usar la Q-table para seleccionar acción
+        state_key = tuple(board.flatten())
+        return self.agent.select_action(state_key, valid_actions, explore=False)
+    
+# alias para el autograder
+MyPolicy = MCTSAgent

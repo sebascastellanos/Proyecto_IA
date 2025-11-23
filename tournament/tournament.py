@@ -16,9 +16,57 @@ def make_initial_matches(
     if shuffle:
         rng = np.random.default_rng(seed)
         rng.shuffle(players)
+    
     size = next_power_of_two(len(players))
-    players += [None] * (size - len(players))  # BYEs
-    return [(players[i], players[i + 1]) for i in range(0, len(players), 2)]
+    byes_needed = size - len(players)
+    
+    # Add BYEs, but distribute them to avoid consecutive BYEs
+    result = []
+    bye_positions = set()
+    
+    # Calculate positions for BYEs to avoid clustering
+    if byes_needed > 0:
+        step = size // (byes_needed + 1)
+        for i in range(byes_needed):
+            bye_positions.add((i + 1) * step - 1)
+    
+    # Build the expanded list with BYEs distributed
+    expanded_players = []
+    player_idx = 0
+    
+    for i in range(size):
+        if i in bye_positions and player_idx < len(players):
+            # Insert a BYE, but make sure we don't exceed player count
+            expanded_players.append(None)
+        else:
+            if player_idx < len(players):
+                expanded_players.append(players[player_idx])
+                player_idx += 1
+            else:
+                expanded_players.append(None)
+    
+    # Ensure we have the correct number of players and BYEs
+    while len(expanded_players) < size:
+        expanded_players.append(None)
+    
+    # Create pairs, ensuring no two BYEs are paired
+    pairs = []
+    for i in range(0, len(expanded_players), 2):
+        a, b = expanded_players[i], expanded_players[i + 1]
+        
+        # Avoid pairing two BYEs
+        if a is None and b is None:
+            # Try to swap with a non-BYE from later positions
+            for j in range(i + 2, len(expanded_players)):
+                if expanded_players[j] is not None:
+                    expanded_players[i] = expanded_players[j]
+                    expanded_players[j] = None
+                    a = expanded_players[i]
+                    break
+        
+        pairs.append((a, b))
+    
+    return pairs
 
 
 def play_round(
@@ -170,3 +218,14 @@ def run_tournament(
             return winners[0]
         versus = pair_next_round(winners)
         print("Next Matches:", versus)
+
+if __name__ == "__main__":
+    from connect4.policy import MyPolicy  # asegúrate que esto esté importado correctamente
+
+    players = [
+        ("Agente1", MyPolicy),
+        ("Agente2", MyPolicy),
+    ]
+
+    winner = run_tournament(players, play, best_of=3, shuffle=False)
+    print(f"\n🏆 Campeón del torneo: {winner[0]}")
