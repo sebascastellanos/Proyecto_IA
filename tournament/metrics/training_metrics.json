@@ -318,5 +318,645 @@
         "wins": 1469,
         "losses": 531,
         "draws": 0
+    },
+    {
+        "episode": 100,
+        "reward": -1.0,
+        "steps": 29,
+        "wins": 51,
+        "losses": 49,
+        "draws": 0
+    },
+    {
+        "episode": 200,
+        "reward": 1.0,
+        "steps": 10,
+        "wins": 100,
+        "losses": 100,
+        "draws": 0
+    },
+    {
+        "episode": 300,
+        "reward": 1.0,
+        "steps": 15,
+        "wins": 171,
+        "losses": 129,
+        "draws": 0
+    },
+    {
+        "episode": 400,
+        "reward": 1.0,
+        "steps": 8,
+        "wins": 254,
+        "losses": 146,
+        "draws": 0
+    },
+    {
+        "episode": 500,
+        "reward": 1.0,
+        "steps": 9,
+        "wins": 326,
+        "losses": 174,
+        "draws": 0
+    },
+    {
+        "episode": 600,
+        "reward": 1.0,
+        "steps": 19,
+        "wins": 409,
+        "losses": 191,
+        "draws": 0
+    },
+    {
+        "episode": 700,
+        "reward": 1.0,
+        "steps": 18,
+        "wins": 478,
+        "losses": 222,
+        "draws": 0
+    },
+    {
+        "episode": 800,
+        "reward": 1.0,
+        "steps": 8,
+        "wins": 543,
+        "losses": 257,
+        "draws": 0
+    },
+    {
+        "episode": 900,
+        "reward": 1.0,
+        "steps": 21,
+        "wins": 619,
+        "losses": 281,
+        "draws": 0
+    },
+    {
+        "episode": 1000,
+        "reward": 1.0,
+        "steps": 7,
+        "wins": 695,
+        "losses": 305,
+        "draws": 0
+    },
+    {
+        "episode": 1100,
+        "reward": -1.0,
+        "steps": 16,
+        "wins": 768,
+        "losses": 332,
+        "draws": 0
+    },
+    {
+        "episode": 1200,
+        "reward": 1.0,
+        "steps": 9,
+        "wins": 843,
+        "losses": 357,
+        "draws": 0
+    },
+    {
+        "episode": 1300,
+        "reward": 1.0,
+        "steps": 9,
+        "wins": 928,
+        "losses": 372,
+        "draws": 0
+    },
+    {
+        "episode": 1400,
+        "reward": 1.0,
+        "steps": 10,
+        "wins": 1007,
+        "losses": 393,
+        "draws": 0
+    },
+    {
+        "episode": 1500,
+        "reward": -1.0,
+        "steps": 14,
+        "wins": 1078,
+        "losses": 422,
+        "draws": 0
+    },
+    {
+        "episode": 1600,
+        "reward": -1.0,
+        "steps": 17,
+        "wins": 1150,
+        "losses": 450,
+        "draws": 0
+    },
+    {
+        "episode": 1700,
+        "reward": 1.0,
+        "steps": 10,
+        "wins": 1219,
+        "losses": 481,
+        "draws": 0
+    },
+    {
+        "episode": 1800,
+        "reward": 1.0,
+        "steps": 10,
+        "wins": 1295,
+        "losses": 505,
+        "draws": 0
+    },
+    {
+        "episode": 1900,
+        "reward": 1.0,
+        "steps": 10,
+        "wins": 1375,
+        "losses": 525,
+        "draws": 0
+    },
+    {
+        "episode": 2000,
+        "reward": 1.0,
+        "steps": 11,
+        "wins": 1444,
+        "losses": 556,
+        "draws": 0
+    },
+    {
+        "episode": 100,
+        "reward": -1.0,
+        "steps": 22,
+        "wins": 49,
+        "losses": 51,
+        "draws": 0
+    },
+    {
+        "episode": 200,
+        "reward": 1.0,
+        "steps": 8,
+        "wins": 110,
+        "losses": 90,
+        "draws": 0
+    },
+    {
+        "episode": 300,
+        "reward": 1.0,
+        "steps": 16,
+        "wins": 182,
+        "losses": 118,
+        "draws": 0
+    },
+    {
+        "episode": 400,
+        "reward": 1.0,
+        "steps": 15,
+        "wins": 258,
+        "losses": 142,
+        "draws": 0
+    },
+    {
+        "episode": 500,
+        "reward": 1.0,
+        "steps": 7,
+        "wins": 333,
+        "losses": 167,
+        "draws": 0
+    },
+    {
+        "episode": 600,
+        "reward": -1.0,
+        "steps": 11,
+        "wins": 402,
+        "losses": 198,
+        "draws": 0
+    },
+    {
+        "episode": 700,
+        "reward": -1.0,
+        "steps": 7,
+        "wins": 478,
+        "losses": 222,
+        "draws": 0
+    },
+    {
+        "episode": 800,
+        "reward": 1.0,
+        "steps": 15,
+        "wins": 547,
+        "losses": 253,
+        "draws": 0
+    },
+    {
+        "episode": 900,
+        "reward": -1.0,
+        "steps": 21,
+        "wins": 623,
+        "losses": 277,
+        "draws": 0
+    },
+    {
+        "episode": 1000,
+        "reward": 1.0,
+        "steps": 8,
+        "wins": 696,
+        "losses": 304,
+        "draws": 0
+    },
+    {
+        "episode": 1100,
+        "reward": 1.0,
+        "steps": 10,
+        "wins": 769,
+        "losses": 331,
+        "draws": 0
+    },
+    {
+        "episode": 1200,
+        "reward": 1.0,
+        "steps": 9,
+        "wins": 845,
+        "losses": 355,
+        "draws": 0
+    },
+    {
+        "episode": 1300,
+        "reward": 1.0,
+        "steps": 21,
+        "wins": 927,
+        "losses": 373,
+        "draws": 0
+    },
+    {
+        "episode": 1400,
+        "reward": 1.0,
+        "steps": 9,
+        "wins": 1005,
+        "losses": 395,
+        "draws": 0
+    },
+    {
+        "episode": 1500,
+        "reward": 1.0,
+        "steps": 17,
+        "wins": 1088,
+        "losses": 412,
+        "draws": 0
+    },
+    {
+        "episode": 1600,
+        "reward": -1.0,
+        "steps": 24,
+        "wins": 1163,
+        "losses": 437,
+        "draws": 0
+    },
+    {
+        "episode": 1700,
+        "reward": 1.0,
+        "steps": 7,
+        "wins": 1237,
+        "losses": 463,
+        "draws": 0
+    },
+    {
+        "episode": 1800,
+        "reward": 1.0,
+        "steps": 11,
+        "wins": 1311,
+        "losses": 489,
+        "draws": 0
+    },
+    {
+        "episode": 1900,
+        "reward": 1.0,
+        "steps": 9,
+        "wins": 1390,
+        "losses": 510,
+        "draws": 0
+    },
+    {
+        "episode": 2000,
+        "reward": 1.0,
+        "steps": 7,
+        "wins": 1471,
+        "losses": 529,
+        "draws": 0
+    },
+    {
+        "episode": 100,
+        "reward": 1.0,
+        "steps": 16,
+        "wins": 50,
+        "losses": 50,
+        "draws": 0
+    },
+    {
+        "episode": 200,
+        "reward": 1.0,
+        "steps": 9,
+        "wins": 118,
+        "losses": 82,
+        "draws": 0
+    },
+    {
+        "episode": 300,
+        "reward": 1.0,
+        "steps": 9,
+        "wins": 195,
+        "losses": 105,
+        "draws": 0
+    },
+    {
+        "episode": 400,
+        "reward": 1.0,
+        "steps": 7,
+        "wins": 269,
+        "losses": 131,
+        "draws": 0
+    },
+    {
+        "episode": 500,
+        "reward": 1.0,
+        "steps": 8,
+        "wins": 347,
+        "losses": 153,
+        "draws": 0
+    },
+    {
+        "episode": 600,
+        "reward": 1.0,
+        "steps": 27,
+        "wins": 424,
+        "losses": 176,
+        "draws": 0
+    },
+    {
+        "episode": 700,
+        "reward": 1.0,
+        "steps": 8,
+        "wins": 495,
+        "losses": 205,
+        "draws": 0
+    },
+    {
+        "episode": 800,
+        "reward": 1.0,
+        "steps": 8,
+        "wins": 579,
+        "losses": 221,
+        "draws": 0
+    },
+    {
+        "episode": 900,
+        "reward": 1.0,
+        "steps": 13,
+        "wins": 655,
+        "losses": 245,
+        "draws": 0
+    },
+    {
+        "episode": 1000,
+        "reward": -1.0,
+        "steps": 13,
+        "wins": 722,
+        "losses": 278,
+        "draws": 0
+    },
+    {
+        "episode": 1100,
+        "reward": 1.0,
+        "steps": 7,
+        "wins": 802,
+        "losses": 298,
+        "draws": 0
+    },
+    {
+        "episode": 1200,
+        "reward": 1.0,
+        "steps": 25,
+        "wins": 880,
+        "losses": 320,
+        "draws": 0
+    },
+    {
+        "episode": 1300,
+        "reward": 1.0,
+        "steps": 7,
+        "wins": 958,
+        "losses": 342,
+        "draws": 0
+    },
+    {
+        "episode": 1400,
+        "reward": 1.0,
+        "steps": 9,
+        "wins": 1030,
+        "losses": 370,
+        "draws": 0
+    },
+    {
+        "episode": 1500,
+        "reward": 1.0,
+        "steps": 7,
+        "wins": 1102,
+        "losses": 398,
+        "draws": 0
+    },
+    {
+        "episode": 1600,
+        "reward": 1.0,
+        "steps": 11,
+        "wins": 1178,
+        "losses": 422,
+        "draws": 0
+    },
+    {
+        "episode": 1700,
+        "reward": 1.0,
+        "steps": 9,
+        "wins": 1261,
+        "losses": 439,
+        "draws": 0
+    },
+    {
+        "episode": 1800,
+        "reward": 1.0,
+        "steps": 15,
+        "wins": 1339,
+        "losses": 461,
+        "draws": 0
+    },
+    {
+        "episode": 1900,
+        "reward": 1.0,
+        "steps": 7,
+        "wins": 1413,
+        "losses": 487,
+        "draws": 0
+    },
+    {
+        "episode": 2000,
+        "reward": 1.0,
+        "steps": 9,
+        "wins": 1485,
+        "losses": 515,
+        "draws": 0
+    },
+    {
+        "episode": 100,
+        "reward": -1.0,
+        "steps": 16,
+        "wins": 43,
+        "losses": 57,
+        "draws": 0
+    },
+    {
+        "episode": 200,
+        "reward": 1.0,
+        "steps": 25,
+        "wins": 106,
+        "losses": 94,
+        "draws": 0
+    },
+    {
+        "episode": 300,
+        "reward": 1.0,
+        "steps": 8,
+        "wins": 171,
+        "losses": 129,
+        "draws": 0
+    },
+    {
+        "episode": 400,
+        "reward": -1.0,
+        "steps": 13,
+        "wins": 246,
+        "losses": 154,
+        "draws": 0
+    },
+    {
+        "episode": 500,
+        "reward": 1.0,
+        "steps": 9,
+        "wins": 329,
+        "losses": 171,
+        "draws": 0
+    },
+    {
+        "episode": 600,
+        "reward": 1.0,
+        "steps": 8,
+        "wins": 405,
+        "losses": 195,
+        "draws": 0
+    },
+    {
+        "episode": 700,
+        "reward": 1.0,
+        "steps": 8,
+        "wins": 487,
+        "losses": 213,
+        "draws": 0
+    },
+    {
+        "episode": 800,
+        "reward": 1.0,
+        "steps": 10,
+        "wins": 561,
+        "losses": 239,
+        "draws": 0
+    },
+    {
+        "episode": 900,
+        "reward": 1.0,
+        "steps": 7,
+        "wins": 644,
+        "losses": 256,
+        "draws": 0
+    },
+    {
+        "episode": 1000,
+        "reward": 1.0,
+        "steps": 7,
+        "wins": 725,
+        "losses": 275,
+        "draws": 0
+    },
+    {
+        "episode": 1100,
+        "reward": 1.0,
+        "steps": 7,
+        "wins": 802,
+        "losses": 298,
+        "draws": 0
+    },
+    {
+        "episode": 1200,
+        "reward": 1.0,
+        "steps": 12,
+        "wins": 881,
+        "losses": 319,
+        "draws": 0
+    },
+    {
+        "episode": 1300,
+        "reward": -1.0,
+        "steps": 22,
+        "wins": 957,
+        "losses": 343,
+        "draws": 0
+    },
+    {
+        "episode": 1400,
+        "reward": -1.0,
+        "steps": 16,
+        "wins": 1042,
+        "losses": 358,
+        "draws": 0
+    },
+    {
+        "episode": 1500,
+        "reward": 1.0,
+        "steps": 9,
+        "wins": 1119,
+        "losses": 381,
+        "draws": 0
+    },
+    {
+        "episode": 1600,
+        "reward": 1.0,
+        "steps": 8,
+        "wins": 1195,
+        "losses": 405,
+        "draws": 0
+    },
+    {
+        "episode": 1700,
+        "reward": 1.0,
+        "steps": 10,
+        "wins": 1279,
+        "losses": 421,
+        "draws": 0
+    },
+    {
+        "episode": 1800,
+        "reward": 1.0,
+        "steps": 7,
+        "wins": 1352,
+        "losses": 448,
+        "draws": 0
+    },
+    {
+        "episode": 1900,
+        "reward": 1.0,
+        "steps": 8,
+        "wins": 1431,
+        "losses": 469,
+        "draws": 0
+    },
+    {
+        "episode": 2000,
+        "reward": 1.0,
+        "steps": 7,
+        "wins": 1506,
+        "losses": 494,
+        "draws": 0
     }
 ]
