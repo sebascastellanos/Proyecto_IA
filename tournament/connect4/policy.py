@@ -1,16 +1,11 @@
 import numpy as np
 import math
 import random
-<<<<<<< HEAD
 from learning.q_learning_agent import QLearningAgent
-=======
-from connect4.policy import Policy
->>>>>>> 48a80f24b78f4a759bb2ef00cae2185089b87135
 
 ROWS, COLS = 6, 7
 EMPTY, P1, P2 = 0, -1, 1
 
-<<<<<<< HEAD
 class Policy:
     def mount(self, timeout=None):
         pass
@@ -32,21 +27,6 @@ class Node:
     def is_fully_expanded(self):
         return len(self.children) == len(self._valid_cols())
 
-=======
-class Node:
-    def __init__(self, board, player, parent=None, move=None):
-        self.board = board
-        self.player = player    # jugador que tiene el turno en este nodo
-        self.parent = parent
-        self.move = move
-        self.children = {}      # col -> Node
-        self.visits = 0
-        self.total_reward = 0.0
-
-    def is_fully_expanded(self):
-        return len(self.children) == len(self._valid_cols())
-
->>>>>>> 48a80f24b78f4a759bb2ef00cae2185089b87135
     def _valid_cols(self):
         return [c for c in range(COLS) if self.board[0, c] == EMPTY]
 
@@ -207,7 +187,6 @@ class MCTSAgent(Policy):
                     return True
         return False
 
-<<<<<<< HEAD
 class QPolicy(Policy):
     def __init__(self, model_path="metrics/q_table.pkl"):
         self.agent = QLearningAgent(train_mode=False)  # Sin exploración en evaluación
@@ -241,7 +220,3 @@ class QPolicy(Policy):
     
 # alias para el autograder
 MyPolicy = MCTSAgent
-=======
-# alias para el autograder
-MyPolicy = MCTSAgent
->>>>>>> 48a80f24b78f4a759bb2ef00cae2185089b87135
