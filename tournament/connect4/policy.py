@@ -1,18 +1,10 @@
 import numpy as np
 import math
 import random
-from learning.q_learning_agent import QLearningAgent
+from connect4.policy import Policy
 
 ROWS, COLS = 6, 7
 EMPTY, P1, P2 = 0, -1, 1
-
-class Policy:
-    def mount(self, timeout=None):
-        pass
-
-    def act(self, state):
-        raise NotImplementedError("Debes implementar el método act")
-
 
 class Node:
     def __init__(self, board, player, parent=None, move=None):
@@ -187,36 +179,5 @@ class MCTSAgent(Policy):
                     return True
         return False
 
-class QPolicy(Policy):
-    def __init__(self, model_path="metrics/q_table.pkl"):
-        self.agent = QLearningAgent(train_mode=False)  # Sin exploración en evaluación
-        self.model_path = model_path
-        self.agent.epsilon = 0.0  # Sin exploración en evaluación
-
-    def mount(self, timeout=None):
-        """Carga el modelo entrenado"""
-        try:
-            self.agent.load(self.model_path)
-            print(f"✅ Modelo Q-Learning cargado desde {self.model_path}")
-        except FileNotFoundError:
-            print(f"⚠️  No se encontró {self.model_path}, usando política aleatoria")
-
-    def act(self, state):
-        """Selecciona acción usando la Q-table entrenada"""
-        # Manejar tanto objetos state como arrays numpy
-        if hasattr(state, 'board'):
-            board = state.board
-            valid_actions = [c for c in range(7) if board[0, c] == 0]
-        else:
-            board = np.array(state)
-            valid_actions = [c for c in range(7) if board[0, c] == 0]
-        
-        if not valid_actions:
-            return 0
-            
-        # Usar la Q-table para seleccionar acción
-        state_key = tuple(board.flatten())
-        return self.agent.select_action(state_key, valid_actions, explore=False)
-    
 # alias para el autograder
 MyPolicy = MCTSAgent
