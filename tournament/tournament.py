@@ -220,11 +220,11 @@ def run_tournament(
         print("Next Matches:", versus)
 
 if __name__ == "__main__":
-    from connect4.policy import MyPolicy  # asegúrate que esto esté importado correctamente
+    from connect4.policy import MCTSAgent  # usar el agente MCTS mejorado
 
     players = [
-        ("Agente1", MyPolicy),
-        ("Agente2", MyPolicy),
+        ("Agente1", MCTSAgent),
+        ("Agente2", MCTSAgent),
     ]
 
     winner = run_tournament(players, play, best_of=3, shuffle=False)

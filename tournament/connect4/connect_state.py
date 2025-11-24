@@ -83,6 +83,10 @@ class ConnectState(EnvironmentState):
 
     def get_free_cols(self) -> list[int]:
         return [c for c in range(self.COLS) if self.is_col_free(c)]
+    
+    def valid_actions(self) -> list[int]:
+        """Alias for get_free_cols for compatibility with policy interface"""
+        return self.get_free_cols()
 
     def transition(self, col: int) -> "ConnectState":
         if not self.is_applicable(col):

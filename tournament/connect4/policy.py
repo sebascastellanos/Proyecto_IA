@@ -1,7 +1,7 @@
 import numpy as np
 import math
 import random
-from connect4.policy import Policy
+from .base_policy import Policy
 
 ROWS, COLS = 6, 7
 EMPTY, P1, P2 = 0, -1, 1

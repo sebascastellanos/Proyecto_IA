@@ -7,7 +7,7 @@ Ejecuta el torneo entre todos los agentes.
 """
 
 import argparse
-from connect4.policy import Policy
+from connect4.base_policy import Policy
 from connect4.utils import find_importable_classes
 from tournament import run_tournament, play
 
