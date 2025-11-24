@@ -1,220 +1,235 @@
-# 🎮 Connect 4 AI Tournament
 
-Un proyecto completo de Inteligencia Artificial que implementa diferentes agentes para jugar Connect 4 y los enfrenta en un torneo eliminatorio.
+# Connect 4 AI Tournament
 
-## 🚀 Características
+Proyecto completo de Inteligencia Artificial para el juego Connect 4, que integra distintos agentes autónomos y los enfrenta en un torneo eliminatorio. El desarrollo incluye agentes basados en búsqueda, aprendizaje por refuerzo y estrategias aleatorias, así como módulos de análisis, métricas y herramientas para la ejecución de torneos.
 
-### 🤖 Agentes Implementados
+## 1. Características del Proyecto
 
-1. **MCTS Agent** - Monte Carlo Tree Search
-   - Implementación completa con UCT (Upper Confidence bounds applied to Trees)
-   - Heurísticas básicas: victoria inmediata y bloqueo de oponente
-   - Rollouts aleatorios con límite de pasos para eficiencia
-   - Selección hacia el centro en empates de visitas
-   - Parámetros configurables: iterations (400), c (1.4), rollout_limit (100)
+### 1.1 Agentes Implementados
 
-2. **Q-Learning Agent** - Aprendizaje por Refuerzo
-   - Tabla Q para aprendizaje de estados
-   - Exploración epsilon-greedy con decay
-   - Entrenamiento contra oponente aleatorio
-   - Métricas de entrenamiento detalladas
+**1. MCTS Agent (Monte Carlo Tree Search)**
 
-3. **Random Agents** - Baseline
-   - Diferentes implementaciones aleatorias
-   - Útiles para testing y baseline
+* Implementación basada en UCT (Upper Confidence Bounds applied to Trees).
+* Incluye heurísticas simples, como detección de victoria inmediata y bloqueo del oponente.
+* Rollouts aleatorios con límite de pasos para mejorar la eficiencia.
+* Política de desempate inclinada hacia columnas centrales.
+* Parámetros ajustables: número de iteraciones (por defecto 400), constante de exploración (1.4) y límite de rollout (100).
 
-### 🏆 Sistema de Torneo
+**2. Q-Learning Agent**
 
-- **Torneo eliminatorio** con emparejamientos automáticos
-- **Manejo de BYEs** para números impares de participantes
-- **Guardado automático** de todos los matches en JSON
-- **Configuración flexible** (best_of, distribución de primer jugador, etc.)
+* Implementación basada en tabla Q para aprendizaje por refuerzo.
+* Estrategia epsilon-greedy con decaimiento progresivo.
+* Entrenamiento contra oponente aleatorio.
+* Registro y análisis detallado de métricas de entrenamiento.
 
-### 📊 Métricas y Análisis
+**3. Random Agents**
 
-- **Logging automático** durante entrenamiento
-- **Visualizaciones** de progreso de aprendizaje
-- **Análisis estadístico** de rendimiento
-- **Jupyter notebook** para análisis interactivo
+* Diferentes políticas aleatorias empleadas como baseline o para pruebas de rendimiento.
 
-## 📁 Estructura del Proyecto
+### 1.2 Sistema de Torneo
+
+* Torneo eliminatorio con emparejamientos automáticos.
+* Manejo automático de participantes impares mediante BYEs.
+* Registro completo en formato JSON de cada match.
+* Parámetros configurables, como cantidad de partidas por enfrentamiento y distribución del primer jugador.
+
+### 1.3 Métricas y Análisis
+
+* Registro automático de métricas durante el entrenamiento.
+* Visualización del progreso del aprendizaje mediante notebooks.
+* Estadísticas de rendimiento de todos los agentes.
+* Herramientas interactivas para análisis en Jupyter.
+
+## 2. Estructura del Proyecto
 
 ```
 Proyecto_IA/
-├── main.py                     # Script principal
-├── Informe.ipynb              # Informe del proyecto
+├── main.py
+├── Informe.ipynb
 └── tournament/
-    ├── main.py                # Ejecutor del torneo
-    ├── tournament.py          # Lógica del torneo
-    ├── train_q_learning.py    # Script de entrenamiento
-    ├── connect4/              # Core del juego
-    │   ├── connect_state.py   # Estado del juego
-    │   ├── policy.py          # Políticas/Agentes
-    │   ├── dtos.py           # Estructuras de datos
-    │   └── utils.py          # Utilidades
-    ├── learning/              # Módulos de aprendizaje
+    ├── main.py
+    ├── tournament.py
+    ├── train_q_learning.py
+    ├── connect4/
+    │   ├── connect_state.py
+    │   ├── policy.py
+    │   ├── dtos.py
+    │   └── utils.py
+    ├── learning/
     │   └── q_learning_agent.py
-    ├── metrics/               # Métricas y análisis
+    ├── metrics/
     │   ├── metrics_logger.py
     │   └── metrics_analisys.ipynb
-    ├── groups/                # Agentes participantes
+    ├── groups/
     │   ├── Group A/
     │   ├── Group B/
     │   └── Group C/
-    └── versus/                # Resultados de matches
+    └── versus/
         └── *.json
 ```
 
-## 🛠️ Instalación
+## 3. Instalación
 
-```bash
-# Clonar el repositorio
+```
 git clone <repository-url>
 cd Proyecto_IA
-
-# Instalar dependencias
 pip install numpy matplotlib pydantic jupyter
 ```
 
-## 🚀 Uso
+## 4. Ejecución
 
-### Modo Rápido
+### 4.1 Modo rápido
 
-```bash
-# Entrenar Q-Learning y ejecutar torneo
+```
 python main.py --mode train
 python main.py --mode tournament
 ```
 
-### Modo Detallado
+### 4.2 Modo detallado
 
-1. **Entrenar el agente Q-Learning:**
-```bash
+**Entrenamiento del agente Q-Learning**
+
+```
 python main.py --mode train
-# O directamente:
+```
+
+O directamente:
+
+```
 cd tournament
 python train_q_learning.py
 ```
 
-2. **Ejecutar torneo:**
-```bash
+**Ejecución del torneo**
+
+```
 python main.py --mode tournament
-# O directamente:
+```
+
+O:
+
+```
 cd tournament
 python main.py
 ```
 
-3. **Analizar métricas:**
-```bash
+**Análisis de métricas**
+
+```
 python main.py --mode metrics
-# O abrir directamente:
+```
+
+O abrir el notebook:
+
+```
 jupyter notebook tournament/metrics/metrics_analisys.ipynb
 ```
 
-4. **Match personalizado:**
-```bash
+**Ejecución de un match personalizado**
+
+```
 python main.py --mode play
 ```
 
-## 📊 Interpretación de Resultados
+## 5. Interpretación de Resultados
 
-### Métricas de Entrenamiento
+### 5.1 Métricas de Entrenamiento
 
-- **Tasa de Victoria**: Porcentaje de partidas ganadas vs oponente aleatorio
-- **Recompensas**: Evolución del aprendizaje (1=victoria, -1=derrota, 0=empate)
-- **Duración de Partidas**: Número de movimientos por partida
-- **Progreso Acumulado**: Victorias, derrotas y empates totales
+* Porcentaje de victorias frente a un oponente aleatorio.
+* Evolución de recompensas acumuladas.
+* Duración promedio de las partidas.
+* Evolución de victorias, derrotas y empates.
 
-### Resultados del Torneo
+### 5.2 Resultados del Torneo
 
-Los archivos en `tournament/versus/` contienen:
-- **Estadísticas del match**: victorias, derrotas, empates
-- **Historia completa**: cada movimiento de cada partida
-- **Formato JSON**: fácil análisis posterior
+Los archivos JSON en `tournament/versus/` incluyen:
 
-## 🔧 Configuración
+* Estadísticas completas del match.
+* Secuencia de movimientos.
+* Número de victorias, empates y derrotas por enfrentamiento.
 
-### Parámetros del Q-Learning
+## 6. Configuración
 
-En `train_q_learning.py`:
-- `episodes`: Número de partidas de entrenamiento (default: 2000)
-- `alpha`: Tasa de aprendizaje (default: 0.1)
-- `gamma`: Factor de descuento (default: 0.95)
-- `epsilon_decay`: Decaimiento de exploración (default: 0.995)
+### 6.1 Parámetros del Q-Learning
 
-### Parámetros del MCTS
+Definidos en `train_q_learning.py`:
 
-En `connect4/policy.py`:
-- `iterations`: Simulaciones por movimiento (default: 400)
-- `c`: Parámetro de exploración UCT (default: 1.4)
-- `rollout_limit`: Límite de pasos por rollout (default: 100)
+* `episodes` (por defecto 2000)
+* `alpha = 0.1`
+* `gamma = 0.95`
+* `epsilon_decay = 0.995`
 
-### Parámetros del Torneo
+### 6.2 Parámetros del MCTS
 
-En `tournament.py`:
-- `best_of`: Partidas por match (default: 7)
-- `first_player_distribution`: Proporción de partidas como primer jugador (default: 0.5)
-- `shuffle`: Mezclar emparejamientos iniciales (default: True)
+Definidos en `connect4/policy.py`:
 
-## 🧪 Testing
+* `iterations = 400`
+* `c = 1.4`
+* `rollout_limit = 100`
 
-```bash
-# Test rápido con pocos episodios
+### 6.3 Parámetros del Torneo
+
+Definidos en `tournament.py`:
+
+* `best_of = 7`
+* `first_player_distribution = 0.5`
+* `shuffle = True`
+
+## 7. Pruebas y Debugging
+
+### Pruebas rápidas
+
+```
 cd tournament
 python -c "from train_q_learning import train_q_learning_agent; train_q_learning_agent(episodes=100)"
+```
 
-# Test de torneo con agentes simples
+### Torneo básico
+
+```
 python tournament.py
 ```
 
-## 📈 Optimización de Rendimiento
+### Problemas comunes
 
-### Para Q-Learning:
-- Aumentar `episodes` para mejor aprendizaje
-- Ajustar `alpha` según velocidad de convergencia
-- Modificar `epsilon_decay` para balance exploración/explotación
+1. Error de módulos: ejecutar desde el directorio raíz del proyecto.
+2. Falta de archivo de tabla Q: es necesario entrenar primero.
+3. Uso excesivo de memoria: reducir episodios o iteraciones.
+4. Partidas lentas: disminuir iteraciones en MCTS.
 
-### Para MCTS:
-- Aumentar `iterations` para mejor juego (más lento)
-- Ajustar `c` para balance exploración/explotación
-- Modificar `rollout_limit` según recursos computacionales
+## 8. Optimización
 
-## 🐛 Troubleshooting
+### Para Q-Learning
 
-### Problemas Comunes:
+* Incrementar episodios de entrenamiento.
+* Ajustar tasa de aprendizaje según estabilidad.
+* Modificar el decaimiento de epsilon para equilibrar exploración y explotación.
 
-1. **"No module found"**: Asegúrate de estar en el directorio correcto
-2. **"No se encontró q_table"**: Ejecuta primero el entrenamiento
-3. **"Memoria insuficiente"**: Reduce `episodes` o `iterations`
-4. **"Partidas muy lentas"**: Reduce `iterations` del MCTS
+### Para MCTS
 
-### Logs y Debug:
+* Aumentar iteraciones cuando se requiere mayor calidad de juego.
+* Ajustar la constante de exploración para estabilizar decisiones.
+* Optimizar el límite de rollout según disponibilidad de cómputo.
 
-- Los entrenamientos muestran progreso cada 50-100 episodios
-- Los matches se guardan automáticamente en `versus/`
-- Las métricas se registran en `metrics/training_metrics.json`
+## 9. Contribución
 
-## 🤝 Contribuir
+1. Crear un fork del proyecto.
+2. Crear una rama para la nueva funcionalidad.
+3. Realizar commits con descripciones claras.
+4. Hacer push de los cambios.
+5. Abrir un Pull Request con la explicación correspondiente.
 
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+## 10. Licencia
 
-## 📄 Licencia
+Proyecto distribuido bajo licencia MIT. Para más detalles, consultar el archivo `LICENSE`.
 
-Este proyecto está bajo la Licencia MIT. Ver `LICENSE` para más detalles.
+## 11. Próximas Mejoras
 
-## 🎯 Próximas Mejoras
+* Implementación de un agente basado en redes neuronales.
+* Inclusión de más oponentes para entrenamiento.
+* Optimización de la representación del estado en Q-Learning.
+* Entrenamiento multi-agente.
+* Desarrollo de una interfaz gráfica para interacción humano-IA.
+* Paralelización del proceso de entrenamiento.
 
-- [ ] Implementar agente basado en redes neuronales
-- [ ] Añadir más oponentes para entrenamiento
-- [ ] Optimizar representación de estado para Q-Learning
-- [ ] Implementar aprendizaje multi-agente
-- [ ] Añadir interfaz gráfica para juego humano vs IA
-- [ ] Paralelización del entrenamiento
-
----
-
-**¡Buena suerte en el torneo! 🏆**
+--
