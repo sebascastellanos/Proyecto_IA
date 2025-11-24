@@ -7,10 +7,11 @@ Un proyecto completo de Inteligencia Artificial que implementa diferentes agente
 ### 🤖 Agentes Implementados
 
 1. **MCTS Agent** - Monte Carlo Tree Search
-   - Implementación completa con UCB1
-   - Heurísticas de victoria inmediata y bloqueo
-   - Rollouts limitados para optimización
-   - Selección hacia el centro en empates
+   - Implementación completa con UCT (Upper Confidence bounds applied to Trees)
+   - Heurísticas básicas: victoria inmediata y bloqueo de oponente
+   - Rollouts aleatorios con límite de pasos para eficiencia
+   - Selección hacia el centro en empates de visitas
+   - Parámetros configurables: iterations (400), c (1.4), rollout_limit (100)
 
 2. **Q-Learning Agent** - Aprendizaje por Refuerzo
    - Tabla Q para aprendizaje de estados
@@ -145,7 +146,7 @@ En `train_q_learning.py`:
 
 En `connect4/policy.py`:
 - `iterations`: Simulaciones por movimiento (default: 400)
-- `c`: Parámetro de exploración UCB1 (default: 1.4)
+- `c`: Parámetro de exploración UCT (default: 1.4)
 - `rollout_limit`: Límite de pasos por rollout (default: 100)
 
 ### Parámetros del Torneo
