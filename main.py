@@ -22,11 +22,11 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'tournament'))
 
 def train_q_learning():
     """Entrena el agente Q-Learning"""
-    print("🚀 Iniciando entrenamiento Q-Learning...")
+    print(" Iniciando entrenamiento Q-Learning...")
     
     # Verificar si estamos en el directorio correcto
     if not os.path.exists('tournament'):
-        print("❌ No se encuentra el directorio 'tournament'. Asegúrate de ejecutar desde la raíz del proyecto.")
+        print(" No se encuentra el directorio 'tournament'. Asegúrate de ejecutar desde la raíz del proyecto.")
         return
     
     # Cambiar al directorio tournament temporalmente
@@ -35,9 +35,9 @@ def train_q_learning():
         os.chdir('tournament')
         from train_q_learning import train_q_learning_agent
         train_q_learning_agent(episodes=2000, save_interval=100)
-        print("✅ Entrenamiento completado!")
+        print(" Entrenamiento completado!")
     except Exception as e:
-        print(f"❌ Error durante el entrenamiento: {e}")
+        print(f"Error durante el entrenamiento: {e}")
     finally:
         os.chdir(original_dir)
 
@@ -47,7 +47,7 @@ def run_tournament():
     
     # Verificar directorio
     if not os.path.exists('tournament'):
-        print("❌ No se encuentra el directorio 'tournament'. Asegúrate de ejecutar desde la raíz del proyecto.")
+        print(" No se encuentra el directorio 'tournament'. Asegúrate de ejecutar desde la raíz del proyecto.")
         return
     
     # Ejecutar desde el subdirectorio tournament
@@ -55,33 +55,33 @@ def run_tournament():
     try:
         os.chdir('tournament')
         os.system('python main.py --mode tournament')
-        print("✅ Torneo completado!")
+        print(" Torneo completado!")
     finally:
         os.chdir(original_dir)
 
 def analyze_metrics():
     """Abre el análisis de métricas en Jupyter"""
-    print("📊 Abriendo análisis de métricas...")
+    print(" Abriendo análisis de métricas...")
     
     # Verificar directorio
     if not os.path.exists('tournament/metrics'):
-        print("❌ No se encuentra el directorio 'tournament/metrics'.")
+        print(" No se encuentra el directorio 'tournament/metrics'.")
         return
     
     original_dir = os.getcwd()
     try:
         os.chdir('tournament')
-        print("💡 Ejecutando: jupyter notebook metrics/metrics_analisys.ipynb")
+        print(" Ejecutando: jupyter notebook metrics/metrics_analisys.ipynb")
         os.system('jupyter notebook metrics/metrics_analisys.ipynb')
     finally:
         os.chdir(original_dir)
 
 def play_custom_match():
     """Permite jugar un match customizado entre dos agentes"""
-    print("🎯 Match personalizado...")
+    print(" Match personalizado...")
     
     if not os.path.exists('tournament'):
-        print("❌ No se encuentra el directorio 'tournament'.")
+        print("No se encuentra el directorio 'tournament'.")
         return
     
     original_dir = os.getcwd()
@@ -101,14 +101,14 @@ def play_custom_match():
         q_agent = ("Q-Agent", QPolicy)
         
         winner = play(mcts, q_agent, best_of=5, first_player_distribution=0.5)
-        print(f"🏆 Ganador: {winner[0]}")
+        print(f"Ganador: {winner[0]}")
     except Exception as e:
-        print(f"❌ Error en match personalizado: {e}")
+        print(f"Error en match personalizado: {e}")
     finally:
         os.chdir(original_dir)
 
 def main():
-    parser = argparse.ArgumentParser(description="🎮 Proyecto IA - Connect 4")
+    parser = argparse.ArgumentParser(description=" Proyecto IA - Connect 4")
     parser.add_argument('--mode', choices=['train', 'tournament', 'metrics', 'play'], 
                        default='tournament',
                        help='Modo de ejecución')
@@ -116,7 +116,7 @@ def main():
     args = parser.parse_args()
     
     print("=" * 50)
-    print("🎮 PROYECTO IA - CONNECT 4")
+    print(" PROYECTO IA - CONNECT 4")
     print("=" * 50)
     
     if args.mode == 'train':
@@ -128,7 +128,7 @@ def main():
     elif args.mode == 'play':
         play_custom_match()
     
-    print("\n✨ Ejecución completada!")
+    print("\n Ejecución completada!")
 
 if __name__ == "__main__":
     main()

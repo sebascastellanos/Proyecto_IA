@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🤖 Script de Entrenamiento Q-Learning para Connect 4
+Script de Entrenamiento Q-Learning para Connect 4
 ==================================================
 Este script entrena un agente Q-Learning contra diferentes oponentes
 y genera métricas detalladas del proceso de aprendizaje.
@@ -90,13 +90,13 @@ class TrainingEnvironment:
             if winner != 0:
                 # Juego terminado - alguien ganó
                 if verbose:
-                    print(f"🏆 Jugador {winner} gana en {moves_count} movimientos!")
+                    print(f" Jugador {winner} gana en {moves_count} movimientos!")
                 return winner, moves_count, game_history, board
             
             # Verificar empate
             if len([col for col in range(7) if board[0][col] == 0]) == 0:
                 if verbose:
-                    print(f"🤝 Empate después de {moves_count} movimientos")
+                    print(f" Empate después de {moves_count} movimientos")
                 return 0, moves_count, game_history, board
             
             # Cambiar turno
@@ -144,7 +144,7 @@ class TrainingEnvironment:
     
     def train_q_learning(self, episodes=1000, save_freq=100, opponents=['random', 'mcts']):
         """Entrena el agente Q-Learning"""
-        print(f"🚀 Iniciando entrenamiento Q-Learning por {episodes} episodios...")
+        print(f" Iniciando entrenamiento Q-Learning por {episodes} episodios...")
         
         # Crear agente Q-Learning
         q_agent = QLearningAgent(
@@ -166,7 +166,7 @@ class TrainingEnvironment:
             mcts_agent.mount()
             opponents_pool['MCTS'] = mcts_agent
         
-        print(f"🎯 Oponentes: {list(opponents_pool.keys())}")
+        print(f" Oponentes: {list(opponents_pool.keys())}")
         
         # Entrenamiento
         checkpoint_data = []
@@ -233,7 +233,7 @@ class TrainingEnvironment:
                     'q_table_size': len(q_agent.q_table)
                 })
                 
-                print(f"📊 Episodio {episode + 1}/{episodes}")
+                print(f" Episodio {episode + 1}/{episodes}")
                 print(f"   Win Rate: {metrics['win_rate']:.1%}")
                 print(f"   Epsilon: {q_agent.epsilon:.3f}")
                 print(f"   Q-Table: {len(q_agent.q_table)} estados")
@@ -243,7 +243,7 @@ class TrainingEnvironment:
                 q_agent.save_metrics(f"metrics/training_metrics_episode_{episode + 1}.json")
         
         # Entrenamiento completado
-        print(f"\n✅ Entrenamiento completado!")
+        print(f"\nEntrenamiento completado!")
         q_agent.print_training_summary()
         
         # Guardar modelo final
@@ -261,7 +261,7 @@ class TrainingEnvironment:
 
 def main():
     """Función principal"""
-    print("🤖 Entrenamiento de Agente Q-Learning para Connect 4")
+    print(" Entrenamiento de Agente Q-Learning para Connect 4")
     print("=" * 50)
     
     # Crear entorno de entrenamiento
@@ -272,7 +272,7 @@ def main():
     save_frequency = 200
     opponents = ['random', 'mcts']
     
-    print(f"⚙️ Configuración:")
+    print(f"  Configuración:")
     print(f"   Episodios: {episodes}")
     print(f"   Frecuencia guardado: cada {save_frequency} episodios")
     print(f"   Oponentes: {opponents}")
@@ -286,16 +286,16 @@ def main():
             opponents=opponents
         )
         
-        print(f"\n🎉 Entrenamiento exitoso!")
-        print(f"📁 Archivos generados:")
+        print(f"\n Entrenamiento exitoso!")
+        print(f" Archivos generados:")
         print(f"   - models/q_agent_final.pkl")
         print(f"   - metrics/training_metrics_final.json")
         print(f"   - metrics/checkpoint_data.json")
         
     except KeyboardInterrupt:
-        print("\n⚠️ Entrenamiento interrumpido por el usuario")
+        print("\nEntrenamiento interrumpido por el usuario")
     except Exception as e:
-        print(f"\n❌ Error durante el entrenamiento: {e}")
+        print(f"\n Error durante el entrenamiento: {e}")
 
 if __name__ == "__main__":
     main()
